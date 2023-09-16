@@ -20,37 +20,46 @@ class Tree:
                     self.nodes[parent].right = i
             self.nodes.append(node)
 
-    def in_order(self, v):
-        if self.nodes[v].left:
-            self.in_order(self.nodes[v].left)
+    def pre_order(self, v):
         print(self.nodes[v].value)
+        if self.nodes[v].left:
+            self.pre_order(self.nodes[v].left)
+
         if self.nodes[v].right:
-            self.in_order(self.nodes[v].right)
+            self.pre_order(self.nodes[v].right)
 
     def swap(self, v):
-        pass
-        # p = nodes[v].parent
-        # pp = nodes[p].parent
-        # if nodes[pp].left == p: # p — левый ребенок вершины pp, то 
-        #     v становится левым ребенком pp
-        # else:
-        #     v становится правым ребенком pp
-        # if nodes[p].left == v: #v — левый ребенок вершины p , то
-        #     nodes[v].left = p #p становится левым ребенком v ;
-        #     # vr остаётся правым ребенком v;
-        #     nodes[p].left = nodes[v].left # vl становится левым ребенком p ;
-        #     nodes[v].left = None # vl становится левым ребенком p ;
-        #     # pr остаётся правым ребенком p
-        # else:
-        #     nodes[v].right = p# p становится правым ребенком v;
-        #     # vl остаётся левым ребенком v;
-        #     nodes[p].right = nodes[v].right# vr становится правым ребенком p;
-        #     nodes[v].right = None
-        #     # pl остаётся левым ребенком p
+        p = self.nodes[v].parent.value
 
-N, _ = map(int, input().split(' '))
-tree = Tree(N)
-tree.in_order(1)
-# swaps = list(map(int, input().split(' ')))
-# for swp in swap:
-#     tree.swap(swp)
+        if self.nodes[p].parent is not None:
+            pp = self.nodes[p].parent.value 
+            if self.nodes[pp].left == p: # p — левый ребенок вершины pp, то 
+                self.nodes[pp].left = v # v становится левым ребенком pp
+                self.nodes[v].parent = pp
+            else:
+                self.nodes[pp].right = v # v становится правым ребенком pp
+                self.nodes[v].parent = pp
+
+        if self.nodes[p].left == v: #v — левый ребенок вершины p , то
+            tmp = self.nodes[v].left
+            self.nodes[v].left = p #p становится левым ребенком v ;
+            self.nodes[p].parent = v
+            # vr остаётся правым ребенком v;
+            self.nodes[p].left = tmp # vl становится левым ребенком p ;
+            # pr остаётся правым ребенком p
+        else:
+            tmp = self.nodes[v].right
+            self.nodes[v].right = p# p становится правым ребенком v;
+            self.nodes[p].parent = v
+            # vl остаётся левым ребенком v;
+            self.nodes[p].right = tmp # vr становится правым ребенком p;
+            # pl остаётся левым ребенком p
+
+n, _ = map(int, input().split(' '))
+tree = Tree(n)
+
+swaps = list(map(int, input().split(' ')))
+for swp in swaps:
+    tree.swap(swp)
+
+tree.pre_order(1)
