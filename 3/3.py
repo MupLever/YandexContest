@@ -1,8 +1,6 @@
-
-
 class Tree:
     class Node:
-        def __init__(self, _value):
+        def __init__(self, _value: int):
             self.value = _value
             self.parent = None
             self.left = None
@@ -13,8 +11,8 @@ class Tree:
                 "\nparent: " + str(self.parent) + \
                 "\nleft: " + str(self.left) + \
                 "\nright: " + str(self.right)
-    def __init__(self, _N):
-        self.N = _N
+    def __init__(self, N: int):
+        self.N = N
         self.root = 1
         self.nodes = [None]
         for i in range(1, self.N + 1):
@@ -28,10 +26,10 @@ class Tree:
                     self.nodes[parent].right = i
             self.nodes.append(node)
 
-    def print(self):
+    def print(self) -> None:
         self.__in_order(self.root)
 
-    def __in_order(self, v):
+    def __in_order(self, v: int) -> None:
         if self.nodes[v].left:
             self.__in_order(self.nodes[v].left)
 
@@ -40,7 +38,7 @@ class Tree:
         if self.nodes[v].right:
             self.__in_order(self.nodes[v].right)
 
-    def swap(self, v):
+    def swap(self, v: int) -> None:
         if self.root == v:
             return
         
@@ -62,7 +60,7 @@ class Tree:
         else:
             self.__right_swap(v, p)
 
-    def __left_swap(self, v, p):
+    def __left_swap(self, v: int, p: int) -> None:
         left_tree = self.nodes[v].left
         self.nodes[v].left = p #p становится левым ребенком v ;
         self.nodes[p].parent = v
@@ -72,7 +70,7 @@ class Tree:
             self.nodes[left_tree].parent = p
         # pr остаётся правым ребенком p
 
-    def __right_swap(self, v, p):
+    def __right_swap(self, v: int, p: int) -> None:
         right_tree = self.nodes[v].right
         self.nodes[v].right = p # p становится правым ребенком v;
         self.nodes[p].parent = v
@@ -83,6 +81,7 @@ class Tree:
         # pl остаётся левым ребенком p
 
 n, _ = map(int, input().split(' '))
+
 tree = Tree(n)
 
 swaps = list(map(int, input().split(' ')))
