@@ -5,8 +5,8 @@ class Node:
         self.left = None
         self.right = None
 
-    def str(self):
-        return "parent: " + str(self.parent) + "\nleft: " + str(self.left) + "\nright: " + str(self.right)
+    def __str__(self):
+        return "value: " + str(self.value) + "\nparent: " + str(self.parent) + "\nleft: " + str(self.left) + "\nright: " + str(self.right)
 
 class Tree:
     def __init__(self, _N):
@@ -58,23 +58,29 @@ class Tree:
             self.nodes[v].parent = None
 
         if self.nodes[p].left == v: #v — левый ребенок вершины p , то
-            left_tree = self.nodes[v].left
-            self.nodes[v].left = p #p становится левым ребенком v ;
-            self.nodes[p].parent = v
-            # vr остаётся правым ребенком v;
-            self.nodes[p].left = left_tree # vl становится левым ребенком p ;
-            if left_tree is not None:
-                self.nodes[left_tree].parent = p
-            # pr остаётся правым ребенком p
+            self.__left_swap(v, p)
         else:
-            right_tree = self.nodes[v].right
-            self.nodes[v].right = p # p становится правым ребенком v;
-            self.nodes[p].parent = v
-            # vl остаётся левым ребенком v;
-            self.nodes[p].right = right_tree # vr становится правым ребенком p;
-            if right_tree is not None:
-                self.nodes[right_tree].parent = p
-            # pl остаётся левым ребенком p
+            self.__right_swap(v, p)
+
+    def __left_swap(self, v, p):
+        left_tree = self.nodes[v].left
+        self.nodes[v].left = p #p становится левым ребенком v ;
+        self.nodes[p].parent = v
+        # vr остаётся правым ребенком v;
+        self.nodes[p].left = left_tree # vl становится левым ребенком p ;
+        if left_tree is not None:
+            self.nodes[left_tree].parent = p
+        # pr остаётся правым ребенком p
+
+    def __right_swap(self, v, p):
+        right_tree = self.nodes[v].right
+        self.nodes[v].right = p # p становится правым ребенком v;
+        self.nodes[p].parent = v
+        # vl остаётся левым ребенком v;
+        self.nodes[p].right = right_tree # vr становится правым ребенком p;
+        if right_tree is not None:
+            self.nodes[right_tree].parent = p
+        # pl остаётся левым ребенком p
 
 n, _ = map(int, input().split(' '))
 tree = Tree(n)
