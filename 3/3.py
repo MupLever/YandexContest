@@ -1,20 +1,24 @@
-class Node:
-    def __init__(self, _value):
-        self.value = _value
-        self.parent = None
-        self.left = None
-        self.right = None
 
-    def __str__(self):
-        return "value: " + str(self.value) + "\nparent: " + str(self.parent) + "\nleft: " + str(self.left) + "\nright: " + str(self.right)
 
 class Tree:
+    class Node:
+        def __init__(self, _value):
+            self.value = _value
+            self.parent = None
+            self.left = None
+            self.right = None
+
+        def __str__(self):
+            return "value: " + str(self.value) + \
+                "\nparent: " + str(self.parent) + \
+                "\nleft: " + str(self.left) + \
+                "\nright: " + str(self.right)
     def __init__(self, _N):
         self.N = _N
         self.root = 1
         self.nodes = [None]
         for i in range(1, self.N + 1):
-            node = Node(i)
+            node = self.Node(i)
             parent = i // 2
             if parent > 0:
                 node.parent = self.nodes[parent].value
@@ -24,21 +28,17 @@ class Tree:
                     self.nodes[parent].right = i
             self.nodes.append(node)
 
-    def in_order(self, v):
-        if self.nodes[v] is None:
-            return
+    def print(self):
+        self.__in_order(self.root)
 
-        if self.root == v:
-            print(self.nodes[v].value, end=' ')
-
+    def __in_order(self, v):
         if self.nodes[v].left:
-            self.in_order(self.nodes[v].left)
+            self.__in_order(self.nodes[v].left)
 
-        if self.root != v:
-            print(self.nodes[v].value, end=' ')
+        print(self.nodes[v].value, end=' ')
 
         if self.nodes[v].right:
-            self.in_order(self.nodes[v].right)
+            self.__in_order(self.nodes[v].right)
 
     def swap(self, v):
         if self.root == v:
@@ -89,4 +89,4 @@ swaps = list(map(int, input().split(' ')))
 for swp in swaps:
     tree.swap(swp)
 
-tree.in_order(tree.root)
+tree.print()
